@@ -5,7 +5,7 @@ private struct DisableSensoryFeedbackEnvironmentKey: EnvironmentKey {
 }
 
 extension EnvironmentValues {
-  package var disableSensoryFeedback: Bool {
+  var disableSensoryFeedback: Bool {
     get {
       self[DisableSensoryFeedbackEnvironmentKey.self]
     } set {

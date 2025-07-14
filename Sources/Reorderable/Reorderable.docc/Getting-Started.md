@@ -2,13 +2,13 @@
 
 ## Installation
 
-This framework is distributed as a **Swift Package**. To use, add the following URL to your package list:
+This framework is distributed as a **Swift Package**. To use, add the following URL to your list:
 
 ```
 https://github.com/visfitness/reorderable
 ```
 
-To add this package to your XCode project, follow [these instructions](https://developer.apple.com/documentation/xcode/adding-package-dependencies-to-your-app).
+To add this to your XCode project, follow [these instructions](https://developer.apple.com/documentation/xcode/adding-package-dependencies-to-your-app).
 
 ## Usage
 
@@ -112,7 +112,7 @@ struct SimpleExample: View {
 
 ### When Part of a ScrollView
 
-> Important: Because this package doesn't rely on SwiftUI's native `onDrag`, it also doesn't automatically trigger auto-scrolling when users drag the element to the edge of the parent/ancestor `ScrollView`. To enable this behavior, the ``SwiftUI/ScrollView/autoScrollOnEdges()`` modifier needs to be applied to the `ScrollView`.
+> Important: Because this doesn't rely on SwiftUI's native `onDrag`, it also doesn't automatically trigger auto-scrolling when users drag the element to the edge of the parent/ancestor `ScrollView`. To enable this behavior, the ``SwiftUI/ScrollView/autoScrollOnEdges()`` modifier needs to be applied to the `ScrollView`.
 
 ```swift
 struct SimpleExample: View {

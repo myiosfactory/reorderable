@@ -65,18 +65,22 @@ private struct Sample: Identifiable {
   @Previewable @State var data = [
     Sample(UIColor.systemBlue, 200), Sample(UIColor.systemGreen, 100), Sample(UIColor.systemGray, 300)]
   
-    ReorderableVStack(data, onMove: { from, to in
-      withAnimation {
-        data.move(fromOffsets: IndexSet(integer: from),
-                  toOffset: (to > from) ? to + 1 : to)
-      }
-    }) { sample in
-      RoundedRectangle(cornerRadius: 32, style: .continuous)
-        .fill(Color(sample.color))
-        .frame(height: sample.height)
+    if #available(iOS 18.0, *) {
+        ReorderableVStack(data, onMove: { from, to in
+            withAnimation {
+                data.move(fromOffsets: IndexSet(integer: from),
+                          toOffset: (to > from) ? to + 1 : to)
+            }
+        }) { sample in
+            RoundedRectangle(cornerRadius: 32, style: .continuous)
+                .fill(Color(sample.color))
+                .frame(height: sample.height)
+                .padding()
+        }
         .padding()
+    } else {
+        // Fallback on earlier versions
     }
-    .padding()
 }
 
 #Preview("Short Stack with Disable Toggle") {
@@ -89,19 +93,23 @@ private struct Sample: Identifiable {
     Toggle("Disable Drag", isOn: $disableToggle)
       .padding(EdgeInsets(top: 0, leading: 36, bottom: 0, trailing: 36))
     
-    ReorderableVStack(data, onMove: { from, to in
-      withAnimation {
-        data.move(fromOffsets: IndexSet(integer: from),
-                  toOffset: (to > from) ? to + 1 : to)
+      if #available(iOS 18.0, *) {
+          ReorderableVStack(data, onMove: { from, to in
+              withAnimation {
+                  data.move(fromOffsets: IndexSet(integer: from),
+                            toOffset: (to > from) ? to + 1 : to)
+              }
+          }) { sample in
+              RoundedRectangle(cornerRadius: 32, style: .continuous)
+                  .fill(Color(sample.color))
+                  .frame(height: sample.height)
+                  .padding()
+          }
+          .dragDisabled(disableToggle)
+          .padding()
+      } else {
+          // Fallback on earlier versions
       }
-    }) { sample in
-      RoundedRectangle(cornerRadius: 32, style: .continuous)
-        .fill(Color(sample.color))
-        .frame(height: sample.height)
-        .padding()
-    }
-    .dragDisabled(disableToggle)
-    .padding()
   }
 }
 
@@ -109,45 +117,53 @@ private struct Sample: Identifiable {
   @Previewable @State var data = [
     Sample(UIColor.systemBlue, 200), Sample(UIColor.systemGreen, 100), Sample(UIColor.systemGray, 300)]
   
-    ReorderableVStack(data, onMove: { from, to in
-      withAnimation {
-        data.move(fromOffsets: IndexSet(integer: from),
-                  toOffset: (to > from) ? to + 1 : to)
-      }
-    }) { sample, isDragged in
-      RoundedRectangle(cornerRadius: 32, style: .continuous)
-        .fill(Color(sample.color))
-        .frame(height: sample.height)
-        .scaleEffect(isDragged ? 1.1: 1)
-        .animation(.easeOut, value: isDragged)
+    if #available(iOS 18.0, *) {
+        ReorderableVStack(data, onMove: { from, to in
+            withAnimation {
+                data.move(fromOffsets: IndexSet(integer: from),
+                          toOffset: (to > from) ? to + 1 : to)
+            }
+        }) { sample, isDragged in
+            RoundedRectangle(cornerRadius: 32, style: .continuous)
+                .fill(Color(sample.color))
+                .frame(height: sample.height)
+                .scaleEffect(isDragged ? 1.1: 1)
+                .animation(.easeOut, value: isDragged)
+                .padding()
+        }
         .padding()
+    } else {
+        // Fallback on earlier versions
     }
-    .padding()
 }
 
 #Preview("Short Stack with Handles") {
   @Previewable @State var data = [
     Sample(UIColor.systemBlue, 200), Sample(UIColor.systemGreen, 100), Sample(UIColor.systemGray, 300)]
   
-    ReorderableVStack(data, onMove: { from, to in
-      withAnimation {
-        data.move(fromOffsets: IndexSet(integer: from),
-                  toOffset: (to > from) ? to + 1 : to)
-      }
-    }) { sample in
-      ZStack(alignment: .leading) {
-        RoundedRectangle(cornerRadius: 32, style: .continuous)
-          .fill(Color(sample.color))
-          .frame(height: sample.height)
-        
-        Image(systemName: "line.3.horizontal")
-          .foregroundStyle(.secondary)
-          .padding()
-          .offset(x: 16)
-          .dragHandle()
-      }
-      .padding()
-    }.padding()
+    if #available(iOS 18.0, *) {
+        ReorderableVStack(data, onMove: { from, to in
+            withAnimation {
+                data.move(fromOffsets: IndexSet(integer: from),
+                          toOffset: (to > from) ? to + 1 : to)
+            }
+        }) { sample in
+            ZStack(alignment: .leading) {
+                RoundedRectangle(cornerRadius: 32, style: .continuous)
+                    .fill(Color(sample.color))
+                    .frame(height: sample.height)
+                
+                Image(systemName: "line.3.horizontal")
+                    .foregroundStyle(.secondary)
+                    .padding()
+                    .offset(x: 16)
+                    .dragHandle()
+            }
+            .padding()
+        }.padding()
+    } else {
+        // Fallback on earlier versions
+    }
 }
 
 #Preview("Tall Stack without Autoscroll") {
@@ -155,25 +171,29 @@ private struct Sample: Identifiable {
     Sample(UIColor.systemBlue, 200), Sample(UIColor.systemGreen, 200), Sample(UIColor.systemGray, 300), Sample(UIColor.systemMint, 200), Sample(UIColor.systemPurple, 300), Sample(UIColor.orange, 200)]
   
   ScrollView {
-    ReorderableVStack(data, onMove: { from, to in
-      withAnimation {
-        data.move(fromOffsets: IndexSet(integer: from),
-                  toOffset: (to > from) ? to + 1 : to)
+      if #available(iOS 18.0, *) {
+          ReorderableVStack(data, onMove: { from, to in
+              withAnimation {
+                  data.move(fromOffsets: IndexSet(integer: from),
+                            toOffset: (to > from) ? to + 1 : to)
+              }
+          }) { sample in
+              ZStack(alignment: .leading) {
+                  RoundedRectangle(cornerRadius: 32, style: .continuous)
+                      .fill(Color(sample.color))
+                      .frame(height: sample.height)
+                  
+                  Image(systemName: "line.3.horizontal")
+                      .foregroundStyle(.secondary)
+                      .padding()
+                      .offset(x: 16)
+                      .dragHandle()
+              }
+              .padding()
+          }.padding()
+      } else {
+          // Fallback on earlier versions
       }
-    }) { sample in
-      ZStack(alignment: .leading) {
-        RoundedRectangle(cornerRadius: 32, style: .continuous)
-          .fill(Color(sample.color))
-          .frame(height: sample.height)
-        
-        Image(systemName: "line.3.horizontal")
-          .foregroundStyle(.secondary)
-          .padding()
-          .offset(x: 16)
-          .dragHandle()
-      }
-      .padding()
-    }.padding()
   }
 }
 
@@ -181,73 +201,82 @@ private struct Sample: Identifiable {
   @Previewable @State var data = [
     Sample(UIColor.systemBlue, 200), Sample(UIColor.systemGreen, 200), Sample(UIColor.systemGray, 300), Sample(UIColor.systemMint, 200), Sample(UIColor.systemPurple, 300), Sample(UIColor.orange, 200)]
   
-  ScrollView {
-    ReorderableVStack(data, onMove: { from, to in
-      withAnimation {
-        data.move(fromOffsets: IndexSet(integer: from),
-                  toOffset: (to > from) ? to + 1 : to)
-      }
-    }) { sample in
-      ZStack(alignment: .leading) {
-        RoundedRectangle(cornerRadius: 32, style: .continuous)
-          .fill(Color(sample.color))
-          .frame(height: sample.height)
-        
-        Image(systemName: "line.3.horizontal")
-          .foregroundStyle(.secondary)
-          .padding()
-          .offset(x: 16)
-          .dragHandle()
-      }
-      .padding()
-    }.padding()
-  }.autoScrollOnEdges()
+    if #available(iOS 18.0, *) {
+        ScrollView {
+            ReorderableVStack(data, onMove: { from, to in
+                withAnimation {
+                    data.move(fromOffsets: IndexSet(integer: from),
+                              toOffset: (to > from) ? to + 1 : to)
+                }
+            }) { sample in
+                ZStack(alignment: .leading) {
+                    RoundedRectangle(cornerRadius: 32, style: .continuous)
+                        .fill(Color(sample.color))
+                        .frame(height: sample.height)
+                    
+                    Image(systemName: "line.3.horizontal")
+                        .foregroundStyle(.secondary)
+                        .padding()
+                        .offset(x: 16)
+                        .dragHandle()
+                }
+                .padding()
+            }.padding()
+        }
+    }else {
+        // Fallback on earlier versions
+    }
 }
 
 #Preview("Tall Stack with Autoscroll and Content Before + After") {
   @Previewable @State var data = [
     Sample(UIColor.systemBlue, 200), Sample(UIColor.systemGreen, 200), Sample(UIColor.systemGray, 300), Sample(UIColor.systemMint, 200), Sample(UIColor.systemPurple, 300), Sample(UIColor.orange, 200)]
-  
-  ScrollView {
-    VStack {
-      RoundedRectangle(cornerRadius: 32, style: .continuous)
-        .fill(Color(UIColor.systemIndigo))
-        .frame(height: 300)
-        .padding()
-        .overlay {
-          Text("Static Content Before")
-        }
-      
-      ReorderableVStack(data, onMove: { from, to in
-        withAnimation {
-          data.move(fromOffsets: IndexSet(integer: from),
-                    toOffset: (to > from) ? to + 1 : to)
-        }
-      }) { sample in
-        ZStack(alignment: .leading) {
-          RoundedRectangle(cornerRadius: 32, style: .continuous)
-            .fill(Color(sample.color))
-            .frame(height: sample.height)
-          
-          Image(systemName: "line.3.horizontal")
-            .foregroundStyle(.secondary)
-            .padding()
-            .offset(x: 16)
-            .dragHandle()
-        }
-        .padding()
-      }
-      
-      
-      RoundedRectangle(cornerRadius: 32, style: .continuous)
-        .fill(Color(UIColor.systemRed))
-        .frame(height: 300)
-        .padding()
-        .overlay {
-          Text("Static Content After")
-        }
+    if #available(iOS 18.0, *) {
+        ScrollView {
+            VStack {
+                RoundedRectangle(cornerRadius: 32, style: .continuous)
+                    .fill(Color(UIColor.systemIndigo))
+                    .frame(height: 300)
+                    .padding()
+                    .overlay {
+                        Text("Static Content Before")
+                    }
+                
+                if #available(iOS 18.0, *) {
+                    ReorderableVStack(data, onMove: { from, to in
+                        withAnimation {
+                            data.move(fromOffsets: IndexSet(integer: from),
+                                      toOffset: (to > from) ? to + 1 : to)
+                        }
+                    }) { sample in
+                        ZStack(alignment: .leading) {
+                            RoundedRectangle(cornerRadius: 32, style: .continuous)
+                                .fill(Color(sample.color))
+                                .frame(height: sample.height)
+                            
+                            Image(systemName: "line.3.horizontal")
+                                .foregroundStyle(.secondary)
+                                .padding()
+                                .offset(x: 16)
+                                .dragHandle()
+                        }
+                        .padding()
+                    }
+                } else {
+                    // Fallback on earlier versions
+                }
+                
+                
+                RoundedRectangle(cornerRadius: 32, style: .continuous)
+                    .fill(Color(UIColor.systemRed))
+                    .frame(height: 300)
+                    .padding()
+                    .overlay {
+                        Text("Static Content After")
+                    }
+            }
+        }.autoScrollOnEdges()
     }
-  }.autoScrollOnEdges()
 }
 
 #Preview("Short Stack with Add/Remove") {
@@ -261,26 +290,27 @@ private struct Sample: Identifiable {
     } label: {
       Text("Add Element")
     }.buttonStyle(.borderedProminent)
-    
-    ReorderableVStack(data, onMove: { from, to in
-      withAnimation {
-        data.move(fromOffsets: IndexSet(integer: from),
-                  toOffset: (to > from) ? to + 1 : to)
+      if #available(iOS 18.0, *) {
+          ReorderableVStack(data, onMove: { from, to in
+              withAnimation {
+                  data.move(fromOffsets: IndexSet(integer: from),
+                            toOffset: (to > from) ? to + 1 : to)
+              }
+          }) { sample in
+              RoundedRectangle(cornerRadius: 32, style: .continuous)
+                  .fill(Color(sample.color))
+                  .frame(height: sample.height)
+                  .padding()
+                  .overlay {
+                      Button(role: .destructive) {
+                          data.removeAll(where: { $0.id == sample.id })
+                      } label : {
+                          Text("Remove")
+                      }.buttonStyle(.borderedProminent)
+                  }
+          }
+          .padding()
       }
-    }) { sample in
-      RoundedRectangle(cornerRadius: 32, style: .continuous)
-        .fill(Color(sample.color))
-        .frame(height: sample.height)
-        .padding()
-        .overlay {
-          Button(role: .destructive) {
-            data.removeAll(where: { $0.id == sample.id })
-          } label : {
-            Text("Remove")
-          }.buttonStyle(.borderedProminent)
-        }
-    }
-    .padding()
   }
 }
 
@@ -296,57 +326,65 @@ private struct Sample2D: Identifiable {
     .init(row: [.init(UIColor.systemIndigo, 200), .init(UIColor.systemTeal, 100), .init(UIColor.systemYellow, 200)]),
   ]
 
-  ReorderableVStack(data, onMove: { from, to in
-    withAnimation {
-      data.move(fromOffsets: IndexSet(integer: from),
-                toOffset: (to > from) ? to + 1 : to)
-    }
-  }) { sample in
-    HStack {
-      ZStack {
-        RoundedRectangle(cornerRadius: 24, style: .continuous)
-          .fill(Color(UIColor.systemOrange))
-          .frame(width: 64, height: 64)
-          .padding()
-       
-        Image(systemName: "line.3.horizontal")
-          .foregroundStyle(.secondary)
-          .padding()
-      }
-      .dragHandle()
-      
-      ReorderableHStack(sample.row, onMove: { from, to in
-        withAnimation {
-          let index = data.firstIndex(where: {$0.id == sample.id})!
-          data[index].row.move(fromOffsets: IndexSet(integer: from),
-                                   toOffset: (to > from) ? to + 1 : to)
+    if #available(iOS 18.0, *) {
+        ReorderableVStack(data, onMove: { from, to in
+            withAnimation {
+                data.move(fromOffsets: IndexSet(integer: from),
+                          toOffset: (to > from) ? to + 1 : to)
+            }
+        }) { sample in
+            HStack {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 24, style: .continuous)
+                        .fill(Color(UIColor.systemOrange))
+                        .frame(width: 64, height: 64)
+                        .padding()
+                    
+                    Image(systemName: "line.3.horizontal")
+                        .foregroundStyle(.secondary)
+                        .padding()
+                }
+                .dragHandle()
+                
+                ReorderableHStack(sample.row, onMove: { from, to in
+                    withAnimation {
+                        let index = data.firstIndex(where: {$0.id == sample.id})!
+                        data[index].row.move(fromOffsets: IndexSet(integer: from),
+                                             toOffset: (to > from) ? to + 1 : to)
+                    }
+                }) { sample in
+                    RoundedRectangle(cornerRadius: 24, style: .continuous)
+                        .fill(Color(sample.color))
+                        .frame(width: 64, height: 64)
+                        .padding()
+                }
+            }
         }
-      }) { sample in
-        RoundedRectangle(cornerRadius: 24, style: .continuous)
-          .fill(Color(sample.color))
-          .frame(width: 64, height: 64)
-          .padding()
-      }
+    } else {
+        // Fallback on earlier versions
     }
-  }
 }
 
 #Preview("Using Binding") {
   @Previewable @State var data = [
     Sample(UIColor.systemBlue, 200), Sample(UIColor.systemGreen, 100), Sample(UIColor.systemGray, 300)]
   
-  ReorderableVStack($data) { $sample in
-    RoundedRectangle(cornerRadius: 32, style: .continuous)
-      .fill(Color(sample.color))
-      .frame(height: sample.height)
-      .padding()
-      .onTapGesture {
-        withAnimation {
-          sample.color = [UIColor.systemRed, UIColor.systemYellow, UIColor.systemMint].randomElement()!
+    if #available(iOS 18.0, *) {
+        ReorderableVStack($data) { $sample in
+            RoundedRectangle(cornerRadius: 32, style: .continuous)
+                .fill(Color(sample.color))
+                .frame(height: sample.height)
+                .padding()
+                .onTapGesture {
+                    withAnimation {
+                        sample.color = [UIColor.systemRed, UIColor.systemYellow, UIColor.systemMint].randomElement()!
+                    }
+                }
         }
-      }
-  }
-  .padding()
+        .padding()
+    } else {
+        EmptyView()
+    }
 }
 
 #Preview("Short Stack of Narrow Stack using bindings") {
@@ -356,26 +394,30 @@ private struct Sample2D: Identifiable {
     .init(row: [.init(UIColor.systemIndigo, 200), .init(UIColor.systemTeal, 100), .init(UIColor.systemYellow, 200)]),
   ]
 
-  ReorderableVStack($data) { $sample in
-    HStack {
-      ZStack {
-        RoundedRectangle(cornerRadius: 24, style: .continuous)
-          .fill(Color(UIColor.systemOrange))
-          .frame(width: 64, height: 64)
-          .padding()
-       
-        Image(systemName: "line.3.horizontal")
-          .foregroundStyle(.secondary)
-          .padding()
-      }
-      .dragHandle()
-      
-      ReorderableHStack($sample.row) { $sample in
-        RoundedRectangle(cornerRadius: 24, style: .continuous)
-          .fill(Color(sample.color))
-          .frame(width: 64, height: 64)
-          .padding()
-      }
+    if #available(iOS 18.0, *) {
+        ReorderableVStack($data) { $sample in
+            HStack {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 24, style: .continuous)
+                        .fill(Color(UIColor.systemOrange))
+                        .frame(width: 64, height: 64)
+                        .padding()
+                    
+                    Image(systemName: "line.3.horizontal")
+                        .foregroundStyle(.secondary)
+                        .padding()
+                }
+                .dragHandle()
+                
+                ReorderableHStack($sample.row) { $sample in
+                    RoundedRectangle(cornerRadius: 24, style: .continuous)
+                        .fill(Color(sample.color))
+                        .frame(width: 64, height: 64)
+                        .padding()
+                }
+            }
+        }
+    } else {
+        // Fallback on earlier versions
     }
-  }
 }

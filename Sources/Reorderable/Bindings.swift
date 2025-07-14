@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(iOS 18.0, *)
 public extension ReorderableVStack {
 
   /// Creates a reorderable vertical stack that computes its rows on demande from an underlying collection of identifable data and update the
@@ -64,6 +65,7 @@ public extension ReorderableVStack {
   }
 }
 
+@available(iOS 18.0, *)
 public extension ReorderableHStack {
   
   /// Creates a reorderable horizontal stack that computes its rows on demande from an underlying collection of identifable data and update the

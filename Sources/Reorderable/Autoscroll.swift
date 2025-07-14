@@ -1,10 +1,10 @@
 import SwiftUI
 
-package let scrollCoordinatesSpaceName = "Scroll"
+let scrollCoordinatesSpaceName = "Scroll"
 
 /// Attributes from the `ScrollView` to pass down to the `reorderable` so that it can autoscroll.
 @available(iOS 18.0, macOS 15.0, *)
-package struct AutoScrollContainerAttributes {
+struct AutoScrollContainerAttributes {
   let position: Binding<ScrollPosition>
   let bounds: CGSize
   let contentBounds: CGSize
@@ -19,7 +19,7 @@ private struct AutoScrollContainerAttributesEnvironmentKey: EnvironmentKey {
 
 @available(iOS 18.0, macOS 15.0, *)
 extension EnvironmentValues {
-  package var autoScrollContainerAttributes: AutoScrollContainerAttributes? {
+  var autoScrollContainerAttributes: AutoScrollContainerAttributes? {
     get { self[AutoScrollContainerAttributesEnvironmentKey.self] }
     set { self[AutoScrollContainerAttributesEnvironmentKey.self] = newValue }
   }

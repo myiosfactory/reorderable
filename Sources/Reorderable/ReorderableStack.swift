@@ -4,7 +4,7 @@ import SwiftUI
 ///
 /// Note that this doesn't participate in iOS standard drag-and-drop mechanism and thus dragged elements can't be dropped into other views modified with `.onDrop`.
 @available(iOS 18.0, macOS 15.0, *)
-package struct ReorderableStack<Axis: ContainerAxis, Data: RandomAccessCollection, Content: View>: View where Data.Element: Identifiable, Data.Index == Int {
+struct ReorderableStack<Axis: ContainerAxis, Data: RandomAccessCollection, Content: View>: View where Data.Element: Identifiable, Data.Index == Int {
   
   /// Creates a reorderable stack that computes its rows on demand from an underlying collection of identifiable data, with the added information of whether the user is currently dragging the element.
   ///
@@ -13,7 +13,7 @@ package struct ReorderableStack<Axis: ContainerAxis, Data: RandomAccessCollectio
   ///   - onMove: A callback triggered whenever two elements had their positions switched
   ///   - content: A view builder that creates the view for a single element of the list, with an extra boolean parameter indicating whether the user is currently dragging the element.
   ///   -
-  package init(_ data: Data, coordinateSpaceName: String, onMove: @escaping (Int, Int) -> Void, content: @escaping (Data.Element, Bool) -> Content) {
+  init(_ data: Data, coordinateSpaceName: String, onMove: @escaping (Int, Int) -> Void, content: @escaping (Data.Element, Bool) -> Content) {
     self.data = data
     self.dataKeys = Set(data.map(\.id))
     self.coordinateSpaceName = coordinateSpaceName
@@ -27,7 +27,7 @@ package struct ReorderableStack<Axis: ContainerAxis, Data: RandomAccessCollectio
   ///   - data: A collection of identifiable data for computing the stack
   ///   - onMove: A callback triggered whenever two elements had their positions switched
   ///   - content: A view builder that creates the view for a single element of the list.
-  package init(_ data: Data, coordinateSpaceName: String, onMove: @escaping (Int, Int) -> Void, @ViewBuilder content: @escaping (Data.Element) -> Content) {
+  init(_ data: Data, coordinateSpaceName: String, onMove: @escaping (Int, Int) -> Void, @ViewBuilder content: @escaping (Data.Element) -> Content) {
     self.data = data
     self.dataKeys = Set(data.map(\.id))
     self.coordinateSpaceName = coordinateSpaceName
@@ -321,13 +321,13 @@ package struct ReorderableStack<Axis: ContainerAxis, Data: RandomAccessCollectio
 
 
 @available(iOS 18.0, *)
-package struct ReorderableElement<Position: AxisPosition, Element: Identifiable, Content: View>: View {
+struct ReorderableElement<Position: AxisPosition, Element: Identifiable, Content: View>: View {
   var datum: Element
   var isDragged: Bool
   @ViewBuilder var content: (_ data: Element, _ isDragged: Bool) -> Content
   let coordinateSpaceName: String
 
-  package var body: some View {
+  var body: some View {
     content(datum, isDragged)
       .overlay(GeometryReader { proxy in
         Color.clear

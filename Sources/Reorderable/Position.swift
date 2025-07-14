@@ -1,7 +1,7 @@
 import SwiftUI
 
 /// Abstract representation of the position of an element along an Axis. Used to abstract computations of the positions across vertical and horizontal stacks.
-package protocol AxisPosition: Equatable, Sendable {
+protocol AxisPosition: Equatable, Sendable {
   associatedtype Preference: PreferenceKey where Preference.Value == Self
   
   init(_ rect: CGRect)
@@ -16,51 +16,51 @@ package protocol AxisPosition: Equatable, Sendable {
 
 extension AxisPosition {
   /// Whether the value is within the element alongside the specific axis.
-  package func contains(_ val: CGFloat) -> Bool {
+  func contains(_ val: CGFloat) -> Bool {
     return min <= val && val <= max
   }
   
   /// The length of the elemement alongside the specific axis.
-  package var span: CGFloat {
+  var span: CGFloat {
     return max - min
   }
 }
 
-package struct VerticalPositionPreferenceKey: PreferenceKey {
-  package static var defaultValue: VerticalPosition { .init(.zero) }
+struct VerticalPositionPreferenceKey: PreferenceKey {
+  static var defaultValue: VerticalPosition { .init(.zero) }
   
-  package static func reduce(value: inout VerticalPosition, nextValue: () -> VerticalPosition) {
+  static func reduce(value: inout VerticalPosition, nextValue: () -> VerticalPosition) {
     value = nextValue()
   }
 }
 
-package struct VerticalPosition: AxisPosition {
-  package typealias Preference = VerticalPositionPreferenceKey
+struct VerticalPosition: AxisPosition {
+  typealias Preference = VerticalPositionPreferenceKey
   
-  package let min: CGFloat
-  package let max: CGFloat
+  let min: CGFloat
+  let max: CGFloat
   
-  package init(_ rect: CGRect) {
+  init(_ rect: CGRect) {
     min = rect.minY
     max = rect.maxY
   }
 }
 
-package struct HorizontalPositionPreferenceKey: PreferenceKey {
-  package static var defaultValue: HorizontalPosition { .init(.zero) }
+struct HorizontalPositionPreferenceKey: PreferenceKey {
+  static var defaultValue: HorizontalPosition { .init(.zero) }
   
-  package static func reduce(value: inout HorizontalPosition, nextValue: () -> HorizontalPosition) {
+  static func reduce(value: inout HorizontalPosition, nextValue: () -> HorizontalPosition) {
     value = nextValue()
   }
 }
 
-package struct HorizontalPosition: AxisPosition {
-  package typealias Preference = HorizontalPositionPreferenceKey
+struct HorizontalPosition: AxisPosition {
+  typealias Preference = HorizontalPositionPreferenceKey
   
-  package let min: CGFloat
-  package let max: CGFloat
+  let min: CGFloat
+  let max: CGFloat
   
-  package init(_ rect: CGRect) {
+  init(_ rect: CGRect) {
     min = rect.minX
     max = rect.maxX
   }

@@ -7,7 +7,7 @@ private struct DragDisabledEnvironmentKey: EnvironmentKey {
 }
 
 extension EnvironmentValues {
-  package var dragDisabled: Bool {
+  var dragDisabled: Bool {
     get { self[DragDisabledEnvironmentKey.self] }
     set { self[DragDisabledEnvironmentKey.self] = newValue }
   }
@@ -22,6 +22,7 @@ private struct DragDisabledViewModifier: ViewModifier {
   }
 }
 
+@available(iOS 18.0, *)
 extension ReorderableVStack {
   /// Adds a condition that controls whether users can drag elements of this ``ReorderableVStack``.
   ///
@@ -34,6 +35,7 @@ extension ReorderableVStack {
   }
 }
 
+@available(iOS 18.0, *)
 extension ReorderableHStack {
   /// Adds a condition that controls whether users can drag elements of this ``ReorderableHStack``.
   ///

@@ -1,7 +1,7 @@
 import SwiftUI
 
 @available(iOS 18.0, macOS 15.0, *)
-package struct DragCallbacks {
+struct DragCallbacks {
   let onDrag: (_ stackDrag: DragGesture.Value, _ scrollDrag: DragGesture.Value) -> Void
   let onDrop: (_ stackDrag: DragGesture.Value) -> Void
 
@@ -16,7 +16,7 @@ private struct DragCallbackKey: @preconcurrency EnvironmentKey {
 
 @available(iOS 18.0, macOS 15.0, *)
 extension EnvironmentValues {
-  package var reorderableDragCallback: DragCallbacks {
+  var reorderableDragCallback: DragCallbacks {
         get { self[DragCallbackKey.self] }
         set { self[DragCallbackKey.self] = newValue }
     }
