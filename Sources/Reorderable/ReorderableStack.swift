@@ -116,28 +116,38 @@ struct ReorderableStack<Axis: ContainerAxis, Data: RandomAccessCollection, Conte
   ///
   /// We need this since we're using the drag offset to render the element while were dragging it. The problem  is that the element changes location while we're dragging it, but the origin of the drag remains the same.
   private var positionOffset: CGFloat {
-    guard let d = dragging
-    else {
-      return 0;
+    guard let d = dragging,
+          let currentIndex = data.firstIndex(where: { $0.id == d }),
+          let initialIndex = initialIndex else {
+        return 0
     }
-    let currentIndex = data.firstIndex(where: { $0.id == d })
 
-    if (currentIndex! > initialIndex!) {
-      return data[initialIndex!..<currentIndex!].map {
-        positionIsValid($0.id) ?
-        positions[$0.id]!.span :
-        0.0
-      }.reduce(0.0, -)
-    } else if (currentIndex! < initialIndex!) {
-      return data[currentIndex! + 1 ... initialIndex!].map {
-        positionIsValid($0.id) ?
-        positions[$0.id]!.span :
-        0.0
-      }.reduce(0.0, +)
+    if currentIndex > initialIndex {
+        return data[initialIndex..<currentIndex].map {
+            if let span = positions[$0.id]?.span, positionIsValid($0.id) {
+                return span
+            } else {
+                return 0.0
+            }
+        }.reduce(0.0, -)
+        
+    } else if currentIndex < initialIndex {
+        // currentIndex + 1 might be out of range, so we check the bounds
+        let safeStartIndex = min(currentIndex + 1, data.count - 1)
+        if safeStartIndex > initialIndex {
+            return 0.0
+        }
+        return data[safeStartIndex...initialIndex].map {
+            if let span = positions[$0.id]?.span, positionIsValid($0.id) {
+                return span
+            } else {
+                return 0.0
+            }
+        }.reduce(0.0, +)
     }
-    
+
     return 0.0
-  }
+}
   
   private func offsetFor(id: Data.Element.ID) -> CGFloat {
     guard id == dragging else { return 0.0 }
